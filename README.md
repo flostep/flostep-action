@@ -35,7 +35,7 @@ jobs:
   diagram:
     runs-on: ubuntu-latest
     steps:
-      - uses: flostep/action-to-flostep@v1
+      - uses: flostep/flostep-action@v1
         with:
           flostep-token: ${{ secrets.FLOSTEP_TOKEN }}
           llm-provider: anthropic
@@ -94,7 +94,7 @@ Point `steps-file` at a file written by an earlier step in the job, from any too
 
 ```yaml
       - run: ./scripts/describe-flow > steps.txt   # your generator
-      - uses: flostep/action-to-flostep@v1
+      - uses: flostep/flostep-action@v1
         with:
           flostep-token: ${{ secrets.FLOSTEP_TOKEN }}
           steps-file: steps.txt
