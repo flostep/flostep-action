@@ -128,6 +128,21 @@ describe("/flostep in AI mode", () => {
     assert.equal(postedComment(r), undefined, "no second comment");
   });
 
+  // A personal access token in github-token makes the bot's comment a User's.
+  test("a comment that opens with the marker is the bot's, whoever its author", async () => {
+    const existing = { id: 79, user: { type: "User" }, body: writeMarker({ sha: "old", diagrams: [] }) };
+    const r = await act({
+      eventName: "issue_comment",
+      event: commentEvent(),
+      env: ANTHROPIC_ENV,
+      github: { ...prRoutes({ comments: [existing] }), "PATCH /repos/acme/shop/issues/comments/79": {} },
+      llm: { [LLM]: anthropicReply(STEPS) },
+      flostep: FLOSTEP_OK
+    });
+    assert.ok(r.github.includes("PATCH /repos/acme/shop/issues/comments/79"));
+    assert.equal(postedComment(r), undefined);
+  });
+
   test("a person quoting the marker doesn't become the bot's comment", async () => {
     const quoted = { id: 78, user: { type: "User" }, body: `> ${writeMarker({ sha: "x", diagrams: [] })}` };
     const r = await act({

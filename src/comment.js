@@ -24,10 +24,15 @@ export function writeMarker(data) {
   return `${PREFIX}${JSON.stringify(data).replace(/</g, "\\u003c").replace(/>/g, "\\u003e")} -->`;
 }
 
-// The action's own comment, recognised by marker and by being a bot's: a
-// person quoting the marker in a reply mustn't become the bot's comment.
+// The action's own comment. With the default GITHUB_TOKEN its author is a
+// Bot; with a personal access token it's that person, so authorship alone
+// isn't enough — the action always writes the marker first, which a reply
+// quoting it ("> <!-- …") never does. Spoofing one gains nothing: diagrams
+// are found by ref, and the marker only carries what the comment displays.
 export function findBotComment(comments) {
-  return comments.find((c) => c.user?.type === "Bot" && String(c.body).includes(PREFIX)) ?? null;
+  return comments.find((c) => c.user?.type === "Bot" && String(c.body).includes(PREFIX))
+    ?? comments.find((c) => String(c.body).startsWith(PREFIX))
+    ?? null;
 }
 
 const short = (sha) => String(sha ?? "").slice(0, 7);
