@@ -2,7 +2,7 @@
   "name": "flostep-action",
   "private": true,
   "version": "0.1.0",
-  "description": "GitHub Action: a walkable Flostep diagram of the flow a pull request changes.",
+  "description": "GitHub Action: walkable Flostep diagrams of the flows pull requests change, and live diagrams of committed .flostep files.",
   "type": "module",
   "engines": {
     "node": ">=20"

@@ -1,4 +1,4 @@
-# Flostep PR Diagram
+# Flostep Diagrams
 
 Comment **`/flostep`** on a pull request and get a walkable [Flostep](https://flostep.dev) diagram of the flow it changes, posted as an image that links to the step-through walkthrough.
 
