@@ -24,7 +24,7 @@ export class GitHub {
         Accept: accept,
         Authorization: `Bearer ${this.token}`,
         "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "flostep-pr-diagram-action",
+        "User-Agent": "flostep/action-to-flostep",
         ...(body === undefined ? {} : { "Content-Type": "application/json" })
       },
       body: body === undefined ? undefined : JSON.stringify(body)

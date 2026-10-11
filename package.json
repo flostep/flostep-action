@@ -1,5 +1,5 @@
 {
-  "name": "flostep-pr-diagram-action",
+  "name": "action-to-flostep",
   "private": true,
   "version": "0.1.0",
   "description": "GitHub Action: a walkable Flostep diagram of the flow a pull request changes.",
