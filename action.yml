@@ -1,0 +1,63 @@
+name: Flostep PR Diagram
+description: Comment /flostep on a pull request to get a walkable Flostep diagram of the flow it changes — from committed .flostep files or any LLM.
+author: Flostep
+branding:
+  icon: git-pull-request
+  color: blue
+
+inputs:
+  flostep-token:
+    description: A Flostep API key with read & write access and no expiry. Store it as a secret.
+    required: true
+  github-token:
+    description: Token for reading the pull request and writing the comment. The default GITHUB_TOKEN is right for almost everyone.
+    default: ${{ github.token }}
+  llm-provider:
+    description: Request format for AI mode — `anthropic` (Claude) or `openai` (OpenAI and every OpenAI-compatible API — Azure OpenAI, Gemini, Groq, Mistral, OpenRouter, Ollama…). Set together with llm-model and llm-api-key, or not at all.
+    required: false
+  llm-model:
+    description: Model id, as the provider spells it (e.g. `claude-opus-5-5`, `gpt-5`, `gemini-2.5-pro`).
+    required: false
+  llm-api-key:
+    description: API key for the provider. Store it as a secret.
+    required: false
+  llm-base-url:
+    description: Override the provider's API base URL — for Azure OpenAI, Gemini's OpenAI-compatible endpoint, OpenRouter, a self-hosted Ollama or vLLM.
+    required: false
+  steps-file:
+    description: Path to a file of steps written by an earlier step in the job. When set, AI mode publishes this file instead of calling a model.
+    required: false
+  mode:
+    description: "`auto` (committed .flostep files if the PR changes any, otherwise AI), `files`, or `ai`."
+    default: auto
+  auto:
+    description: "When to generate without being asked: `none` (only on /flostep), `opened` (also when a PR opens or is marked ready), or `push` (on every push)."
+    default: none
+  command:
+    description: The comment command that triggers the action.
+    default: /flostep
+  folder:
+    description: Flostep folder for PR diagrams and previews. Created if missing.
+    default: PR diagrams
+  files-folder:
+    description: Flostep folder for the live diagrams of committed .flostep files, updated on pushes to the default branch. Created if missing.
+    default: Diagrams
+  share:
+    description: Turn on each diagram's public link, which the comment's image needs. Set to `false` to post plain links to the editor instead.
+    default: "true"
+  paths-ignore:
+    description: Newline- or comma-separated globs left out of the diff sent to the model (lockfiles, vendored and generated code are already excluded).
+    required: false
+  max-files:
+    description: Most .flostep previews per pull request.
+    default: "10"
+  cli-version:
+    description: The flostep CLI version to run. Leave it unless you are testing a newer CLI.
+    required: false
+  flostep-url:
+    description: Flostep server URL. Only for testing against a non-production server.
+    required: false
+
+runs:
+  using: node24
+  main: src/main.js

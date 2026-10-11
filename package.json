@@ -1,0 +1,15 @@
+{
+  "name": "flostep-pr-diagram-action",
+  "private": true,
+  "version": "0.1.0",
+  "description": "GitHub Action: a walkable Flostep diagram of the flow a pull request changes.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "author": "Flostep <support@flostep.dev>"
+}
