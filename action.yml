@@ -1,5 +1,5 @@
 name: Flostep Diagrams
-description: Comment /flostep on a pull request for a walkable diagram of the flow it changes, drawn from committed .flostep files or any LLM. Keeps your repo's .flostep files published as live diagrams.
+description: Comment /flostep on a pull request for a walkable diagram of the flow it changes, from .flostep files or any LLM.
 author: Flostep
 branding:
   icon: git-pull-request
