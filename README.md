@@ -1,5 +1,7 @@
 # Flostep Diagrams
 
+![Comment /flostep on a pull request and get a walkable diagram of the flow it changes](media/demo.gif)
+
 Comment **`/flostep`** on a pull request and get a walkable [Flostep](https://flostep.dev) diagram of the flow it changes, posted as an image that links to the step-through walkthrough.
 
 - **From committed `.flostep` files**, if the PR changes any: each one is previewed as it stands in the PR. The live diagram is only updated once the change reaches the default branch.
