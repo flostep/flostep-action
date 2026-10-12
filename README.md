@@ -5,7 +5,9 @@ Comment **`/flostep`** on a pull request and get a walkable [Flostep](https://fl
 - **From committed `.flostep` files**, if the PR changes any: each one is previewed as it stands in the PR. The live diagram is only updated once the change reaches the default branch.
 - **From the diff, with any LLM**, otherwise: Claude, OpenAI, Gemini, Azure OpenAI, Groq, Mistral, OpenRouter, a self-hosted Ollama or vLLM. Or bring your own steps from an earlier step in the job.
 
-The diagram is made **when someone asks for it**, not on every push. A push only marks the comment as out of date, and the next `/flostep` refreshes it with the same link.
+The diagram is made **when someone asks for it**, not on every push. The next `/flostep` refreshes it with the same link.
+
+To have pushes mark the comment as out of date ("2 commits behind"), add `synchronize` to the `pull_request` types. It adds a few-seconds check to every push on every PR, which is why the example leaves it out.
 
 ## Setup
 
@@ -19,7 +21,7 @@ on:
   issue_comment:
     types: [created]
   pull_request:
-    types: [synchronize, closed]
+    types: [closed]   # clean up a PR's diagrams when it closes
   push:
     branches: [main]
     paths: ["**/*.flostep"]
@@ -33,6 +35,8 @@ concurrency:
 
 jobs:
   diagram:
+    # Every comment on every issue fires issue_comment; only start a runner for /flostep on a PR.
+    if: github.event_name != 'issue_comment' || (github.event.issue.pull_request && startsWith(github.event.comment.body, '/flostep'))
     runs-on: ubuntu-latest
     steps:
       - uses: flostep/flostep-action@v1
