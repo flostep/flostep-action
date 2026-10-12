@@ -7,8 +7,9 @@ import { spawn } from "node:child_process";
 export class FlostepError extends Error {
   constructor(args, code, stderr) {
     // The CLI writes a sentence and an indented hint; the sentence is enough.
+    // The CLI's leading "✗" is for a terminal; on a PR it's noise.
     const message = stderr.split("\n").map((l) => l.trim()).find((l) => l && !/^npm (warn|notice)/i.test(l));
-    super(message || `flostep ${args[0]} exited with ${code}.`);
+    super(message?.replace(/^[✗✓]\s*/, "") || `flostep ${args[0]} exited with ${code}.`);
     this.code = code;
     this.stderr = stderr;
   }

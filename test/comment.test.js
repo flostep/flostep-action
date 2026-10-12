@@ -248,6 +248,19 @@ describe("/flostep in AI mode", () => {
     assert.match(postedComment(r), /^@maintainer Couldn't make the diagram/);
   });
 
+  // Seen on the first real run: the CLI's terminal glyph reached the PR.
+  test("the CLI's ✗ doesn't reach the reply", async () => {
+    const r = await act({
+      eventName: "issue_comment",
+      event: commentEvent(),
+      env: ANTHROPIC_ENV,
+      github: prRoutes(),
+      llm: { [LLM]: anthropicReply(STEPS) },
+      flostep: { ...FLOSTEP_OK, upsert: { code: 1, stderr: "✗ This API key is read-only, so it can't change anything.\n  hint\n" } }
+    });
+    assert.match(postedComment(r), /Couldn't make the diagram: This API key is read-only/);
+  });
+
   test("without a model or steps-file, the reply says what to configure", async () => {
     const r = await act({ eventName: "issue_comment", event: commentEvent(), github: prRoutes(), flostep: FLOSTEP_OK });
 
